@@ -1,0 +1,26 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# AWS credentials (NEVER commit these!)
+*.pem
+*.key
+credentials
+config
+
+# Sensitive information
+secrets/
+.env
+.env.local
