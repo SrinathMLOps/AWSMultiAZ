@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Multi-AZ Traffic Flow Diagram</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #232f3e;
+            margin-bottom: 40px;
+            font-size: 28px;
+        }
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 300px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .box.user {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .box.internet {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .box.igw {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        .box.alb {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        .box.tg {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+        .box.ec2 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+        .arrow {
+            font-size: 30px;
+            color: #232f3e;
+            font-weight: bold;
+        }
+        .split-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            width: 100%;
+        }
+        .label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 AWS Multi-AZ Traffic Flow</h1>
+        
+        <div class="flow-diagram">
+            <!-- User -->
+            <div class="box user">
+                <span class="icon">🌍</span>USER (Browser)
+            </div>
+            
+            <div class="arrow">↓</div>
+            <div class="label">HTTP Request</div>
+            
+            <!-- Internet -->
+            <div class="box internet">
+                <span class="icon">☁️</span>Internet
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Internet Gateway -->
+            <div class="box igw">
+                <span class="icon">🚪</span>Internet Gateway (IGW)
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Application Load Balancer -->
+            <div class="box alb">
+                <span class="icon">⚖️</span>Application Load Balancer
+                <div class="label">web-alb | Port: 80</div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Target Group -->
+            <div class="box tg">
+                <span class="icon">🎯</span>Target Group
+                <div class="label">web-tg | Health Check: HTTP /</div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            <div class="label">Load Balancing</div>
+            
+            <!-- EC2 Instances -->
+            <div class="split-container">
+                <div class="box ec2">
+                    <span class="icon">🖥️</span>EC2 Instance
+                    <div class="label">AZ: eu-west-2a<br>Apache :80</div>
+                </div>
+                <div class="box ec2">
+                    <span class="icon">🖥️</span>EC2 Instance
+                    <div class="label">AZ: eu-west-2b<br>Apache :80</div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            <div class="label">HTTP Response</div>
+            
+            <!-- Response path -->
+            <div class="box alb">
+                <span class="icon">⚖️</span>ALB Returns Response
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="box igw">
+                <span class="icon">🚪</span>Internet Gateway
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="box internet">
+                <span class="icon">☁️</span>Internet
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="box user">
+                <span class="icon">🌍</span>USER (Browser)
+            </div>
+        </div>
+    </div>
+</body>
+</html>
