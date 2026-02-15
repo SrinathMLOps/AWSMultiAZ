@@ -127,13 +127,19 @@ See [screenshots/](screenshots/) folder for:
 
 ## 🔄 Cleanup
 
-To avoid ongoing charges:
-1. Delete Auto Scaling Group
-2. Delete Load Balancer
+**Important**: Resources must be deleted in a specific order to avoid dependency errors.
+
+See [CLEANUP_GUIDE.md](CLEANUP_GUIDE.md) for detailed step-by-step deletion instructions.
+
+**Quick Summary**:
+1. Delete Auto Scaling Group (terminates instances automatically)
+2. Delete Load Balancer (wait 3-5 minutes)
 3. Delete Target Group
-4. Terminate EC2 instances
-5. Delete Launch Template
-6. Delete VPC (will cascade delete subnets, IGW, route tables)
+4. Delete Launch Template
+5. Delete Security Group
+6. Delete VPC (cascades to subnets, IGW, route tables)
+
+**Total Time**: ~10-15 minutes | **Cost After Cleanup**: $0/month
 
 ## 📚 Additional Resources
 
