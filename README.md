@@ -19,7 +19,7 @@ A production-ready demonstration of AWS high availability architecture using App
 
 ## 🏗️ Architecture
 
-![Architecture Diagram](diagrams/architecture.png)
+See [diagrams/architecture.md](diagrams/architecture.md) for detailed architecture information and diagram creation guide.
 
 ### Components
 
