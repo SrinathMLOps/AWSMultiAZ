@@ -126,7 +126,25 @@ See [screenshots/](screenshots/) folder for:
 - Infrastructure resilience testing
 - CloudWatch monitoring setup
 
-## 🔄 Cleanup
+## 🔄 Pause/Stop Resources
+
+**Want to avoid charges without deleting everything?**
+
+See [PAUSE_RESOURCES_GUIDE.md](PAUSE_RESOURCES_GUIDE.md) for detailed instructions on pausing resources.
+
+**Quick Method** (Recommended):
+1. Go to EC2 → Auto Scaling Groups → web-asg
+2. Click "Edit"
+3. Set Desired capacity: 0, Minimum: 0
+4. Click "Update"
+5. Instances terminate automatically
+
+**Cost When Paused**: ~$20/month (ALB only) or $0 (if you delete ALB too)  
+**Resume Time**: 5-7 minutes
+
+---
+
+## 🗑️ Complete Cleanup
 
 **Important**: Resources must be deleted in a specific order to avoid dependency errors.
 
