@@ -6,7 +6,25 @@ This folder contains visual diagrams for the AWS Multi-AZ High Availability proj
 
 ## 📊 Available Diagrams
 
-### 1. Traffic Flow Diagram
+### 1. Complete Architecture Diagram ⭐ NEW
+**File**: `complete-architecture-diagram.html`
+
+Comprehensive view showing traffic flow, infrastructure control, and VPC layout all in one diagram.
+
+**Includes**:
+- User to Internet Gateway flow
+- VPC boundary with CIDR
+- Application Load Balancer
+- Target Group with health checks
+- Multi-AZ subnets (eu-west-2a, eu-west-2b)
+- EC2 instances in each AZ
+- Auto Scaling Group
+- Launch Template
+- CloudWatch monitoring
+- Route Table configuration
+- Complete component legend
+
+### 2. Traffic Flow Diagram
 **File**: `traffic-flow-diagram.html`
 
 Shows the complete request/response flow from user to EC2 instances and back.
@@ -20,7 +38,7 @@ Shows the complete request/response flow from user to EC2 instances and back.
 - EC2 Instances (Multi-AZ)
 - Response path
 
-### 2. Infrastructure Control Layer Diagram
+### 3. Infrastructure Control Layer Diagram
 **File**: `infrastructure-control-diagram.html`
 
 Shows the automation and control plane that manages the infrastructure.

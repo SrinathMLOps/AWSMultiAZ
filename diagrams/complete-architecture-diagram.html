@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Multi-AZ Complete Architecture</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #232f3e;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .box {
+            padding: 20px 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .user {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            min-width: 250px;
+        }
+        .igw {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            min-width: 250px;
+        }
+        .vpc-container {
+            border: 3px solid #232f3e;
+            border-radius: 15px;
+            padding: 30px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+            width: 90%;
+            margin: 20px 0;
+        }
+        .vpc-header {
+            text-align: center;
+            font-weight: bold;
+            color: #232f3e;
+            margin-bottom: 20px;
+            font-size: 18px;
+            padding: 10px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+        }
+        .alb {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            min-width: 400px;
+        }
+        .tg {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            color: white;
+            min-width: 350px;
+        }
+        .subnets-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .subnet {
+            border: 2px solid #4facfe;
+            border-radius: 12px;
+            padding: 20px;
+            background: rgba(255,255,255,0.9);
+            min-width: 200px;
+        }
+        .subnet-header {
+            font-weight: bold;
+            color: #232f3e;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .subnet-cidr {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        .ec2 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .control-layer {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .control-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            min-width: 180px;
+        }
+        .route-table {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+        .arrow {
+            font-size: 24px;
+            color: #232f3e;
+            font-weight: bold;
+        }
+        .label {
+            font-size: 11px;
+            color: #666;
+            margin: 5px 0;
+        }
+        .icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 AWS Multi-AZ Complete Architecture</h1>
+        <p class="subtitle">Traffic Flow + Infrastructure Control + VPC Layout</p>
+        
+        <div class="architecture">
+            <!-- User -->
+            <div class="box user">
+                <span class="icon">🌍</span>USER (Internet)
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Internet Gateway -->
+            <div class="box igw">
+                <span class="icon">🚪</span>Internet Gateway
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- VPC Container -->
+            <div class="vpc-container">
+                <div class="vpc-header">
+                    🏢 VPC (10.0.0.0/16) - poc-multiaz-vpc
+                </div>
+                
+                <!-- Application Load Balancer -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                    <div class="box alb">
+                        <span class="icon">⚖️</span>Application Load Balancer (web-alb)
+                        <div class="label">Internet-Facing | HTTP:80</div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <!-- Target Group -->
+                    <div class="box tg">
+                        <span class="icon">🎯</span>Target Group (web-tg)
+                        <div class="label">Health Check: HTTP / | Interval: 30s</div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    <div class="label">Load Balancing</div>
+                    
+                    <!-- Subnets -->
+                    <div class="subnets-container">
+                        <!-- Subnet A -->
+                        <div class="subnet">
+                            <div class="subnet-header">
+                                📍 Subnet A (eu-west-2a)
+                            </div>
+                            <div class="subnet-cidr">
+                                10.0.1.0/24
+                            </div>
+                            <div class="ec2">
+                                <span class="icon">🖥️</span>EC2 Instance<br>
+                                <div class="label">t2.micro<br>Apache :80</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Subnet B -->
+                        <div class="subnet">
+                            <div class="subnet-header">
+                                📍 Subnet B (eu-west-2b)
+                            </div>
+                            <div class="subnet-cidr">
+                                10.0.2.0/24
+                            </div>
+                            <div class="ec2">
+                                <span class="icon">🖥️</span>EC2 Instance<br>
+                                <div class="label">t2.micro<br>Apache :80</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Control Layer -->
+                    <div style="margin-top: 30px; width: 100%;">
+                        <div class="label" style="text-align: center; margin-bottom: 15px; font-size: 14px; font-weight: bold; color: #232f3e;">
+                            Infrastructure Control Layer
+                        </div>
+                        <div class="control-layer">
+                            <div class="control-box">
+                                <span class="icon">📊</span>Auto Scaling Group<br>
+                                <div class="label">Min:2 Desired:2 Max:4</div>
+                            </div>
+                            <div class="control-box">
+                                <span class="icon">📋</span>Launch Template<br>
+                                <div class="label">AMI + User Data</div>
+                            </div>
+                            <div class="control-box">
+                                <span class="icon">📈</span>CloudWatch<br>
+                                <div class="label">Metrics + Alarms</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Route Table -->
+                    <div class="route-table">
+                        <span class="icon">🗺️</span>Route Table<br>
+                        <div class="label">0.0.0.0/0 → Internet Gateway<br>10.0.0.0/16 → Local</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Legend -->
+            <div style="margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 10px; width: 90%;">
+                <div style="font-weight: bold; margin-bottom: 15px; color: #232f3e; text-align: center;">
+                    📋 Architecture Components
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px;">
+                    <div>✅ Multi-AZ Deployment (2 AZs)</div>
+                    <div>✅ Auto Scaling (2-4 instances)</div>
+                    <div>✅ Load Balancing (ALB)</div>
+                    <div>✅ Health Checks (30s interval)</div>
+                    <div>✅ Self-Healing (ASG)</div>
+                    <div>✅ High Availability (99.9%+)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

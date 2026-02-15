@@ -19,11 +19,12 @@ A production-ready demonstration of AWS high availability architecture using App
 
 ## 🏗️ Architecture
 
-See [diagrams/architecture.md](diagrams/architecture.md) for detailed architecture information and diagram creation guide.
+**Visual Diagrams**: Open [diagrams/complete-architecture-diagram.html](diagrams/complete-architecture-diagram.html) in your browser for a complete visual architecture diagram.
 
-**Traffic Flow**: See [TRAFFIC_FLOW.md](TRAFFIC_FLOW.md) for detailed request/response flow and load balancing behavior.
-
-**Infrastructure Control**: See [INFRASTRUCTURE_CONTROL_LAYER.md](INFRASTRUCTURE_CONTROL_LAYER.md) for Auto Scaling, health checks, and automation details.
+**Detailed Documentation**:
+- [TRAFFIC_FLOW.md](TRAFFIC_FLOW.md) - Request/response flow and load balancing behavior
+- [INFRASTRUCTURE_CONTROL_LAYER.md](INFRASTRUCTURE_CONTROL_LAYER.md) - Auto Scaling, health checks, and automation
+- [diagrams/README.md](diagrams/README.md) - All visual diagrams and export instructions
 
 ### Components
 
