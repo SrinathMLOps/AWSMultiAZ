@@ -21,6 +21,10 @@ A production-ready demonstration of AWS high availability architecture using App
 
 See [diagrams/architecture.md](diagrams/architecture.md) for detailed architecture information and diagram creation guide.
 
+**Traffic Flow**: See [TRAFFIC_FLOW.md](TRAFFIC_FLOW.md) for detailed request/response flow and load balancing behavior.
+
+**Infrastructure Control**: See [INFRASTRUCTURE_CONTROL_LAYER.md](INFRASTRUCTURE_CONTROL_LAYER.md) for Auto Scaling, health checks, and automation details.
+
 ### Components
 
 - **Region**: EU-West-2 (London)

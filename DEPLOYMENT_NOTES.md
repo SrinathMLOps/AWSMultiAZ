@@ -5,6 +5,10 @@ Successfully deployed a highly available web application across multiple Availab
 
 ---
 
+## Traffic Flow
+
+See [TRAFFIC_FLOW.md](TRAFFIC_FLOW.md) for detailed request/response flow diagrams and traffic patterns.
+
 ## Architecture Components
 
 ### 1. VPC Configuration
