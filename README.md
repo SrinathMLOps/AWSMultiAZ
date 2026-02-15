@@ -2,7 +2,7 @@
 
 A production-ready demonstration of AWS high availability architecture using Application Load Balancer and Auto Scaling Groups across multiple Availability Zones in the London region.
 
-![Multi-AZ Demo](MultiAz.gif)
+![Multi-AZ Demo](MultiAZ.gif)
 
 ## 🎯 What This Demonstrates
 
